@@ -1,0 +1,17 @@
+{
+  "name": "outerfaces_js",
+  "version": "0.1.0",
+  "description": "JavaScript collection for 'Outerfaces' web applications",
+  "files": [
+    "lib/*.js"
+  ],
+  "keywords": [
+    "elixir",
+    "phoenix",
+    "javascript",
+    "framework",
+    "pwa",
+    "progressive web apps"
+  ],
+  "author": "Aligned To Development - development@alignedto.dev"
+}
