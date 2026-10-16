@@ -31,3 +31,20 @@ class ItemsPage extends HTMLElement {
 ```
 
 Pages without the method are mounted afresh on every navigation, as before.
+
+## Scroll on navigation
+
+`initializeLocationStateEventOverrides()` also takes over scroll restoration
+(`history.scrollRestoration = 'manual'`), as a multi-page site would behave:
+
+- a page mounted by `pushState` (an `outerfaces-link` click, a redirect) opens
+  at the top;
+- back/forward returns to where that page was left, once it has rendered tall
+  enough (it gives up after two seconds, or as soon as the reader scrolls);
+- `replaceState` leaves the scroll where it is;
+- same-page navigations (`routeParamsChanged`) never scroll; the page decides.
+
+Each history entry's state gets an `_outerfaces_entry` key (plain-object or
+empty states only) for this; positions are kept in memory, so a full reload
+starts at the top. Turn it off with
+`window._outerfaces_config.scrollOnNavigation = false`.
