@@ -48,3 +48,30 @@ Each history entry's state gets an `_outerfaces_entry` key (plain-object or
 empty states only) for this; positions are kept in memory, so a full reload
 starts at the top. Turn it off with
 `window._outerfaces_config.scrollOnNavigation = false`.
+
+## Server-sent routes
+
+Instead of a routes module that lists every route, the server can write the
+routes a visitor may reach into the shell, as JSON in
+`<script type="application/json" id="outerfaces-routes">` (outerfaces_odd's
+`RouteManifest`):
+
+```js
+import {
+  initializeLocationStateEventOverrides,
+  readRouteManifest,
+  useRouteManifest
+} from './app-functions/index.js';
+
+initializeLocationStateEventOverrides();
+await useRouteManifest(readRouteManifest());
+navigationService.navigate(window.location.pathname);
+```
+
+`useRouteManifest` hydrates the routes, imports the manifest's `entries` (code
+only some visitors get, such as a signed-in shell's persistent elements), and
+remembers its `sign_in` route. While `sign_in` is set, a path outside the
+visitor's routes goes there with the return parameter instead of the not-found
+page, so a signed-out visitor can't tell which routes exist. Reload after
+signing in or out; the next shell carries the new routes.
+
